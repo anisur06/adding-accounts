@@ -4,6 +4,7 @@ import { Sidebar } from './components/layout/Sidebar';
 import { TopHeader } from './components/layout/TopHeader';
 import { SearchPalette } from './components/common/SearchPalette';
 import { ToastContainer } from './components/common/Toast';
+import { LandingPage } from './components/landing/LandingPage';
 
 // Modules
 import { DashboardOverview } from './components/dashboard/DashboardOverview';
@@ -22,7 +23,7 @@ import { BannerEditModal } from './components/marketing/BannerEditModal';
 import { CreateCouponModal } from './components/marketing/CreateCouponModal';
 import { ProfileEditModal } from './components/profile/ProfileEditModal';
 
-function DashboardContent() {
+function DashboardContent({ onViewLanding }) {
   const { activeTab } = useStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -34,7 +35,10 @@ function DashboardContent() {
       {/* Main Content Area */}
       <div className="xl:pl-72 flex flex-col flex-1 min-h-screen">
         {/* Top Header Navigation */}
-        <TopHeader onToggleSidebar={() => setIsSidebarOpen(prev => !prev)} />
+        <TopHeader
+          onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
+          onViewStorefront={onViewLanding}
+        />
 
         {/* Dynamic Page View Body */}
         <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto pb-16">
@@ -74,9 +78,15 @@ function DashboardContent() {
 }
 
 export default function App() {
+  const [currentView, setCurrentView] = useState('landing');
+
   return (
     <StoreProvider>
-      <DashboardContent />
+      {currentView === 'landing' ? (
+        <LandingPage onOpenDashboard={() => setCurrentView('dashboard')} />
+      ) : (
+        <DashboardContent onViewLanding={() => setCurrentView('landing')} />
+      )}
     </StoreProvider>
   );
 }

@@ -17,7 +17,7 @@ import {
 import { useStore } from '../../context/StoreContext';
 import { formatTimeAgo } from '../../utils/formatters';
 
-export function TopHeader({ onToggleSidebar }) {
+export function TopHeader({ onToggleSidebar, onViewStorefront }) {
   const {
     setIsSearchOpen,
     notifications,
@@ -89,6 +89,16 @@ export function TopHeader({ onToggleSidebar }) {
 
       {/* Global actions */}
       <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+        {onViewStorefront && (
+          <button
+            type="button"
+            onClick={onViewStorefront}
+            className="hidden rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition-colors hover:border-brand-200 hover:text-brand-900 md:inline-flex"
+          >
+            Storefront
+          </button>
+        )}
+
         {/* Quick Add Button & Dropdown */}
         <div className="relative" ref={quickRef}>
           <button
